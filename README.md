@@ -260,9 +260,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Email**: support@football-dashboard.com
-- **Issues**: [GitHub Issues](https://github.com/yourusername/football-dashboard/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/football-dashboard/discussions)
+- **Email**: nirhanglimbu558@gmail.com
+- **Issues**: [GitHub Issues](https://github.com/Nirhang10/football-dashboard/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Nirhang10/football-dashboard/discussions)
 
 ## ⭐ Show Your Support
 
