@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'weather.css' %}" />
+</head>
+<body>
+    <a href="{% url 'PLmatch' %}" class="back-link">Premier Leauge</a>
+    <br>
+    <a href="{% url 'livematch' %}" class="back-link2">Live Match</a>
+    <div class="weather-container">
+        <div class="weather-card-header">
+            🌍 Live Weather
+        </div>
+        
+        <div class="city-title">{{ city_weather.city }}</div>
+        
+        <div class="weather-description">{{ city_weather.description }}</div>
+        
+        <div class="weather-icon">
+            <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Weather Icon">
+        </div>
+        
+        <div class="temperature">{{ city_weather.temperature }}°C</div>
+        
+        <div class="weather-details">
+            <div class="detail-item">
+                <div class="detail-label">Status</div>
+                <div class="detail-value">{{ city_weather.description|title }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Location</div>
+                <div class="detail-value">{{ city_weather.city }}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

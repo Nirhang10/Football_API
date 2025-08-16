@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Matches - Live Schedule</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'live-match.css' %}" />
+</head>
+<body>
+    <div class="matches-container">
+        <div class="main-header">
+            <h1>Today</h1>
+        </div>
+
+        {% regroup live_match by name as competition_groups %}
+        
+        {% for competition in competition_groups %}
+        <div class="matches-section">
+            <div class="section-header">
+                {% if competition.list.0.logo %}
+                    <img src="{{competition.list.0.logo}}" alt="{{competition.grouper}} logo" class="competition-logo">
+                {% endif %}
+                <span>{{competition.grouper}}</span>
+            </div>
+
+            {% for live in competition.list %}
+            <div class="match-item">
+                <div class="match-content">
+                    <div class="match-status">
+                        <div class="status-indicator"></div>
+                        <span class="status-text">FT</span>
+                    </div>
+
+                    <div class="match-teams">
+                        <div class="team">
+                            <a href="{% url 'Club_detail' live.home_team_id %}" class="team-link" aria-label="View {{live.home_team}} club details">
+                                <img src="{{live.home_logo}}" alt="{{live.home_team}} logo" class="team-logo">
+                                <span class="team-name">{{live.home_team}}</span>
+                            </a>
+                        </div>
+
+                        <div class="match-vs">vs</div>
+
+                        <div class="team">
+                            <a href="{% url 'Club_detail' live.away_team_id %}" class="team-link" aria-label="View {{live.away_team}} club details">
+                                <img src="{{live.away_logo}}" alt="{{live.away_team}} logo" class="team-logo">
+                                <span class="team-name">{{live.away_team}}</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="match-score">
+                        <div class="match-time">
+                            {{live.Date|date:"H:i"|default:"15:00"}}
+                        </div>
+                        <div class="match-winner {% if live.match_winner == live.home_team %}winner-home{% elif live.match_winner == live.away_team %}winner-away{% elif live.match_winner == 'Draw' %}winner-draw{% else %}winner-tbd{% endif %}">
+                                {% if live.match_winner %}
+                                    🏆 {{live.match_winner}}
+                                {% else %}
+                                    🔄 TBD
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        
+    </div>
+</body>
+</html>

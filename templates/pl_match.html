@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{leauge_info.league_name}} - Season {{leauge_info.season}}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'Pl-match.css' %}" />
+</head>
+<body>
+    <div class="premier-league-container">
+        <!-- League Header -->
+        <div class="league-header">
+            <div class="header-main">
+                <img src="{{leauge_info.league_logo}}" alt="{{leauge_info.league_name}}" class="league-logo">
+                <h1 class="league-title">{{leauge_info.league_name}}</h1>
+            </div>
+            
+            <div class="season-info">
+                <div class="info-card">
+                    <div class="info-label">🏆 Current Season</div>
+                    <div class="info-value">{{leauge_info.season}}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">⚽ Matchday</div>
+                    <div class="info-value">{{leauge_info.matchday}}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matches Section -->
+        <div class="matches-section">
+            <div class="section-header">🏟️ Fixtures & Results</div>
+            
+            {% if matches %}
+                <!-- Stats Row -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <span class="stat-number">{{ matches|length }}</span>
+                        <div class="stat-label">Total Matches</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">{{leauge_info.matchday}}</span>
+                        <div class="stat-label">Current Matchday</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">20</span>
+                        <div class="stat-label">Teams</div>
+                    </div>
+                </div>
+
+                <!-- Matches Grid -->
+                <div class="matches-grid">
+                    {% for match in matches %}
+                    <div class="match-card">
+                        <div class="match-teams">
+                            <div class="team home">
+                                <img src="{{match.home_logo}}" alt="{{match.home_team}}" class="team-logo">
+                                <div class="team-name">
+                                    <a href="{% url 'Club_detail' match.home_team_id %}">{{match.home_team}}</a>
+                                </div>
+                            </div>
+                            
+                            <div class="vs-divider">
+                                <div class="vs-text">VS</div>
+                            </div>
+                            
+                            <div class="team away">
+                                <img src="{{match.away_logo}}" alt="{{match.away_team}}" class="team-logo">
+                                <div class="team-name">
+                                    <a href="{% url 'Club_detail' match.away_team_id %}">{{match.away_team}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="match-details">
+                            <div class="match-date">📅 {{match.match_date}}</div>
+                            <div class="match-winner {% if match.match_winner == match.home_team %}winner-home{% elif match.match_winner == match.away_team %}winner-away{% elif match.match_winner == 'Draw' %}winner-draw{% else %}winner-tbd{% endif %}">
+                                {% if match.match_winner %}
+                                    🏆 {{match.match_winner}}
+                                {% else %}
+                                    🔄 TBD
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-matches">
+                    <h3>No Matches Available</h3>
+                    <p>Check back later for upcoming fixtures and results.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

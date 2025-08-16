@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{club.club_name}} - Club Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'club.css' %}" />
+</head>
+<body>
+    
+    <div class="dashboard-container">
+        
+        <!-- Club Header -->
+        <div class="club-header">
+            <a href="{% url 'livematch' %}" class="back-link">← Back</a>
+            <div class="club-title-section">
+                <h1 class="club-name">{{club.club_name}}</h1>
+                <img src="{{club.club_logo}}" alt="{{club.club_name}}" class="club-logo">
+            </div>
+            
+            <div class="venue-info">
+                <div class="venue-item">
+                    <div class="venue-label">🏟️ Stadium</div>
+                    <div class="venue-value">{{club.club_venue}}</div>
+                </div>
+                <div class="venue-item">
+                    <div class="venue-label">📍 Location</div>
+                    <div class="venue-value">
+                        {{club.place_name}}
+                        <img src="{{club.place_flag}}" alt="{{club.place_name}}" class="place-flag">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Squad Section -->
+        <div class="section-container">
+            <div class="section-header">⚽ Squad</div>
+            
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% else %}
+                {% if squad %}
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>👤 Player Name</th>
+                                <th>⚽ Position</th>
+                                <th>🌍 Nationality</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in squad %}
+                            <tr>
+                                <td> <a href="{% url 'player_detail' player.id %}"> {{ player.name }} </a></td>
+                                <td>{{ player.position }}</td>
+                                <td>{{ player.nationality }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">{{ squad|length }}</div>
+                            <div class="stat-label">Total Players</div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <p>No squad information available</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <!-- Coach Section -->
+        <div class="section-container">
+            <div class="section-header coach-header">👨‍💼 Coaching Staff</div>
+            
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% else %}
+                {% if coach %}
+                    <table class="data-table coach-table">
+                        <thead>
+                            <tr>
+                                <th>👤 Coach Name</th>
+                                <th>🌍 Nationality</th>
+                                <th>📋 Contract</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ coach.name }}</td>
+                                <td>{{ coach.nation }}</td>
+                                <td>{{ coach.contract }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="empty-state">
+                        <p>No coaching staff information available</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

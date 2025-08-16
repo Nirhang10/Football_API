@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{player_data.name}} - Player Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'player-info.css' %}" />
+</head>
+<body>
+    {% if player_data %}
+    <div class="player-container">
+        <!-- Navigation -->
+        <a href="{% url 'Club_detail' player_data.current_team_id %}" class="back-link">← Back to Squad</a>
+        
+        <!-- Club color indicator -->
+        <div class="club-color-indicator">
+            Default Theme
+        </div>
+
+        <!-- Hero Section -->
+        <div class="player-hero">
+            <div class="hero-content">
+                <div class="player-info-main">
+                    <div class="jersey-number">{{player_data.shirtnumber}}</div>
+                    <h1 class="player-name">{{player_data.name}}</h1>
+                    
+                    <div class="player-position">
+                        <div class="position-badge">{{player_data.position}}</div>
+                        <a href="{% url 'Club_detail' player_data.current_team_id %}" class="team-badge-link">
+                            <div class="team-badge">
+                                <img src="{{player_data.current_team_logo}}" alt="{{player_data.current_team}}" class="team-logo">
+                                <span class="team-name">{{player_data.current_team}}</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="player-image-section">
+                    <div class="player-avatar">
+                        <div class="default-avatar">
+                            {{player_data.name|first|upper}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Stats -->
+        <div class="player-stats">
+            <div class="stats-header">
+                <h2 class="stats-title">Player Statistics</h2>
+                <p class="stats-subtitle">Personal Information & Career Details</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Age</div>
+                    <div class="stat-value">{{age}}</div>
+                    <div class="stat-detail">Player Age</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Nationality</div>
+                    <div class="stat-value">{{player_data.nation}}</div>
+                    <div class="stat-detail">Country</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Jersey Number</div>
+                    <div class="stat-value">#{{player_data.shirtnumber}}</div>
+                    <div class="stat-detail">Squad Number</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Contract</div>
+                    <div class="stat-value">{{player_data.contract}}</div>
+                    <div class="stat-detail">Until</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Details -->
+        <div class="team-details">
+            <div class="team-section">
+                <div class="team-info">
+                    <h2 class="team-title">{{player_data.current_team}}</h2>
+                    <div class="team-stats">
+                        <div class="team-stat-item">
+                            <div class="team-stat-label">Stadium</div>
+                            <div class="team-stat-value">{{player_data.current_team_venue}}</div>
+                        </div>
+                        <div class="team-stat-item">
+                            <div class="team-stat-label">Position</div>
+                            <div class="team-stat-value">{{player_data.position}}</div>
+                        </div>
+                        <div class="team-stat-item">
+                            <div class="team-stat-label">Squad #</div>
+                            <div class="team-stat-value">#{{player_data.shirtnumber}}</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'Club_detail' player_data.current_team_id %}" class="team-logo-large-link">
+                    <img src="{{player_data.current_team_logo}}" alt="{{player_data.current_team}}" class="team-logo-large">
+                </a>
+            </div>
+        </div>
+
+        <!-- Competitions -->
+        {% if competition %}
+        <div class="competitions-section">
+            <h2 class="competitions-title">Competitions</h2>
+            <div class="competitions-grid">
+                {% for comp in competition %}
+                <div class="competition-card">
+                    <img src="{{comp.emblem}}" alt="{{comp.name}}" class="competition-logo">
+                    <h3 class="competition-name">{{comp.name}}</h3>
+                    <p class="competition-type">{{comp.type}}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
